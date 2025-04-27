@@ -1,0 +1,8 @@
+<h1>ورود</h1>
+<p>لطفا اطلاعات خود را وارد کنید</p>
+    <form method="post">
+        {%csrf_token %}
+        {{ form.as_p }}
+            <input type="hidden" name="next", value="{{ next }}">
+        <input type="submit" value="ورود">
+    </form>
