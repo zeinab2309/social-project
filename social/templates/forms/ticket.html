@@ -1,4 +1,8 @@
 
+{% if sent %}
+    <h1>ایمیل شما به پشتیبانی ارسال شد </h1>
+{% endif %}
+
     <form method="post">
     {% csrf_token %}
         نام و نام خانوادگی:

@@ -2,8 +2,12 @@ from django.shortcuts import render
 from django.contrib.auth import logout,authenticate,login
 from django.shortcuts import render,get_object_or_404 ,redirect
 from django.http import HttpResponse
+from pyexpat.errors import messages
 from .forms import *
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from .models import *
+
 
 # Create your views here.
 def log_out(request):
@@ -49,19 +53,22 @@ def edit_user(request):
 
 
 def ticket(request):
-
+    sent = False
     if request.method=="POST":
         form=TicketForm(request.POST)
         if form.is_valid():
-            ticket_obj =Ticket.objects.create()
             cd=form.cleaned_data
-            ticket_obj.message=cd['message']
-            ticket_obj.name = cd['name']
-            ticket_obj.email = cd['email']
-            ticket_obj.phone = cd['phone']
-            ticket_obj.subject = cd['subject']
-            ticket_obj.save()
-            return redirect("blog:index")
+            message=f"{cd['name']}\n{cd['email']}\n{cd['phone']}\n\n{cd['message']}"
+            send_mail(cd['subject'],message,'poormoosavie0@gmail.com',['mfrey2211@gmail.com'],fail_silently=False)
+            sent=True
     else:
         form=TicketForm()
-    return render(request , "forms/ticket.html",{'form':form})
+    return render(request , "forms/ticket.html",{'form':form,'sent':sent})
+
+
+def post_list(request):
+    posts=Post.objects.all()
+    context={
+        'posts':posts,
+    }
+    return render(request,"social/list.html",context)
