@@ -1,5 +1,4 @@
 from lib2to3.fixes.fix_asserts import NAMES
-
 from  django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
@@ -24,5 +23,6 @@ urlpatterns=[
          name="password_reset_confirm"),
     path('password-reset/complete/', auth_views.PasswordResetCompleteView.as_view(), name="password_reset_complete"),
     path('posts/', views.post_list, name="post_list"),
+    path('posts/<slug:tag_slug>/', views.post_list, name="post_list_by_tag"),
 
 ]
