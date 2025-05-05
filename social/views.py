@@ -66,7 +66,7 @@ def ticket(request):
     return render(request , "forms/ticket.html",{'form':form,'sent':sent})
 
 
-def post_list(request):
+def post_list(request,tag_slug=None):
     posts=Post.objects.all()
     tag=None
     if tag_slug:
