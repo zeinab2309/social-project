@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
-from .models import User
+from .models import *
 
 
 
@@ -73,3 +73,9 @@ class TicketForm(forms.Form):
             else:
                 return phone
 
+
+class CreatePostForm(forms.ModelForm):
+
+    class Meta:
+        model= Post
+        fields=['description','tags']
