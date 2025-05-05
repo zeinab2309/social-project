@@ -5,3 +5,13 @@ published at {{ post.created}} by {{ post.author }}
     <a href="{%url 'social:post_list_by_tag' tag.slug %}">{{tag.name}}</a>
     {% if not forloop.last %}, {%endif%}
 {% endfor %}
+
+<h2>Similar Post</h2>
+{% for post in similar_post %}
+    <p>
+        <a href="{{ post.get_absolute_url }}">{{ post.description |truncatewords:10 }}</a>
+    </p>
+
+{% empty %}
+
+{% endfor %}
