@@ -9,6 +9,9 @@ from django.core.mail import send_mail
 from .models import *
 from taggit.models import Tag
 from django.db.models import Count
+from django.contrib.postgres.search import TrigramSimilarity
+from django.db.models import Q
+
 # Create your views here.
 def log_out(request):
     logout(request)
@@ -104,3 +107,24 @@ def post_detail(request , pk):
         'similar_post':similar_post
     }
     return render(request,"social/detail.html",context)
+
+
+
+def post_search(request):
+    query=None
+    results=[]
+    if 'query' in request.GET:
+        form=SearchForm(data=request.GET)
+        if form.is_valid():
+            query=form.cleaned_data['query']
+            results = Post.objects.filter(
+            Q(description__contains=query)|Q(tags__name__contains=query)).distinct()
+
+        context={
+           'query':query,
+           'results':results
+        }
+    return render(request,'social/search.html',context)
+
+
+

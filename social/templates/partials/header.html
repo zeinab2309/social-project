@@ -1,0 +1,17 @@
+<form method="get" action="{% url 'social:post_search'%}">
+
+    <input type="text" name="query" required placeholder="کلمه مورد نظر را وارد کنید..">
+    <input type="submit" value="جستجو" >
+
+</form>
+    {% if request.user.is_authenticated %}
+        <div>
+            <a href="#">{{ request.user.first_name |default:request.user.username}}</a>
+        </div>
+    {% else %}
+        <a href="{% url 'social:login' %}">  ورود  </a>
+
+    {% endif %}
+<p><a href="{% url 'social:profile' %}">پروفایل</a> </p>
+<p><a href="{% url 'social:post_list' %}">پست ها</a> </p>
+<br>

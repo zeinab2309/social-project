@@ -1,3 +1,6 @@
+{% extends 'parent/base.html' %}
+{% block title %}login{% endblock %}
+{% block content %}
 <h1>ورود</h1>
 <p>لطفا اطلاعات خود را وارد کنید</p>
     <form method="post">
@@ -6,3 +9,4 @@
             <input type="hidden" name="next", value="{{ next }}">
         <input type="submit" value="ورود">
     </form>
+{% endblock %}

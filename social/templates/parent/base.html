@@ -1,0 +1,15 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>blog | {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+
+    {% block head %} {% endblock %}
+</head>
+<body>
+{% include 'partials/header.html' %}
+{% block content %} {% endblock %}
+
+</body>
+</html>

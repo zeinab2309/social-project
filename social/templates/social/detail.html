@@ -1,3 +1,6 @@
+{% extends 'parent/base.html' %}
+{% block title %}detail post{% endblock %}
+{% block content %}
 {{ post.description |linebreaks }}
 published at {{ post.created}} by {{ post.author }}
 <br>
@@ -15,3 +18,4 @@ published at {{ post.created}} by {{ post.author }}
 {% empty %}
 
 {% endfor %}
+{% endblock %}
