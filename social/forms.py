@@ -82,3 +82,34 @@ class CreatePostForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     query=forms.CharField()
+
+
+
+class CommentForm(forms.ModelForm):
+    def clean_name(self):
+        name=self.cleaned_data['name']
+        if name:
+            if len(name)<3:
+                raise forms.ValidationError("نام نام باید حداقل 4 حرف داشته باشد")
+            else:
+                return name
+
+
+    class Meta:
+        model=Comment
+        fields=['name','body']
+        widgets={
+            'body': forms.Textarea(attrs={
+                'placeholder': "متن کامنت",
+                'class': 'cm-body'
+            }),
+            'name': forms.TextInput(attrs={
+                'placeholder': "نام شما",
+                'class': 'cm-name'
+            }),
+        }
+
+    labels = {
+        'name': '',
+        'body': ''
+    }

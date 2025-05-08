@@ -18,4 +18,34 @@ published at {{ post.created}} by {{ post.author }}
 {% empty %}
 
 {% endfor %}
+    <div>
+    {% with comments.count as cm_count%}<!--بخواییم از یک دستور چند بار استفاه کنیم از این روش محدوده را مشخص میکنیم و اسم مشخص میکنیم-->
+    {{cm_count}} comment{{cm_count|pluralize}}
+    </div>
+<div class="comments-section">
+    <h3>نظرات ({{ comments.count }})</h3>
+
+    {% for comment in comments %}
+    <div class="comment-item mb-3 p-3 border rounded">
+        <div class="comment-header d-flex align-items-center mb-2">
+            <span class="comment-author fw-bold">:{{ comment.name }}</span>
+        </div>
+        <p class="comment-body mb-0">{{ comment.body }}</p>
+        <span class="comment-date text-muted ms-2">تاریخ کامنت:
+                {{ comment.created|date:"Y/m/d - H:i" }}
+        </span>
+    </div>
+    <br>----<br>
+    {% empty %}
+    <p class="text-muted">هنوز نظری ثبت نشده است.</p>
+    {% endfor %}
+</div>
+    {% endwith %}
+    <form method="post" action="{% url 'social:post_comment' post.id %}">
+        {%csrf_token%}
+        {{form.as_p}}
+        <input type="submit" value="افزودن کامنت">
+    </form>
+
+    <hr>
 {% endblock %}

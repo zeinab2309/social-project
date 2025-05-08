@@ -11,6 +11,8 @@ from taggit.models import Tag
 from django.db.models import Count
 from django.contrib.postgres.search import TrigramSimilarity
 from django.db.models import Q
+from django.core.paginator import Paginator
+
 
 # Create your views here.
 def log_out(request):
@@ -99,12 +101,14 @@ def create_post(request):
 
 def post_detail(request , pk):
     post=get_object_or_404(Post, id=pk)
+    comments = post.comments.filter(active=True)
     post_tags_ids=post.tags.values_list('id',flat=True)
     similar_post=Post.objects.filter(tags__in=post_tags_ids).exclude(id=post.id)
     similar_post=similar_post.annotate(same_tags=Count('tags')).order_by('-same_tags','-created')[:2]
     context={
         'post':post,
-        'similar_post':similar_post
+        'similar_post':similar_post,
+        'comments': comments
     }
     return render(request,"social/detail.html",context)
 
@@ -127,4 +131,20 @@ def post_search(request):
     return render(request,'social/search.html',context)
 
 
+
+def post_comment(request, post_id):
+    post=get_object_or_404(Post, id=post_id)
+    comment=None
+    form=CommentForm(data=request.POST)
+    if form.is_valid():
+        comment=form.save(commit=False)
+        comment.post=post
+        comment.save()
+    context={
+        'post':post,
+        'form':form,
+        'comment':comment
+
+    }
+    return render(request, "forms/comment.html", context)
 
