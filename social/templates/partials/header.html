@@ -5,9 +5,9 @@
 
 </form>
     {% if request.user.is_authenticated %}
-        <div>
+        <p>
             <a href="#">{{ request.user.first_name |default:request.user.username}}</a>
-        </div>
+        </p>
     {% else %}
         <a href="{% url 'social:login' %}">  ورود  </a>
 

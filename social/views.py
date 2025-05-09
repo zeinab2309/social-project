@@ -20,7 +20,7 @@ def log_out(request):
     return HttpResponse("شما خراج شدید")
 
 def profile(request):
-    return HttpResponse("شما وارد شدید")
+    return render(request, "social/profile.html")
 
 
 def register(request):
