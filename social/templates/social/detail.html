@@ -15,9 +15,12 @@ published at {{ post.created}} by {{ post.author }}
         <a href="{{ post.get_absolute_url }}">{{ post.description |truncatewords:10 }}</a>
     </p>
 
-{% empty %}
-
 {% endfor %}
+    <div>
+        {% for img in post.images.all %}
+            <img width="300px" height="300px" src="{{ img.image_file.url }}" alt="{{ img.title }}">
+        {% endfor %}
+    </div>
     <div>
     {% with comments.count as cm_count%}<!--بخواییم از یک دستور چند بار استفاه کنیم از این روش محدوده را مشخص میکنیم و اسم مشخص میکنیم-->
     {{cm_count}} comment{{cm_count|pluralize}}

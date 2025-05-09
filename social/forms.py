@@ -75,10 +75,11 @@ class TicketForm(forms.Form):
 
 
 class CreatePostForm(forms.ModelForm):
-
+    image1=forms.ImageField(label="تصویر اول", required=False)
+    image2=forms.ImageField(label="تصویر دوم", required=False)
     class Meta:
         model= Post
-        fields=['description','tags']
+        fields=['description','tags','author']
 
 class SearchForm(forms.Form):
     query=forms.CharField()
@@ -114,9 +115,3 @@ class CommentForm(forms.ModelForm):
         'body': ''
     }
 
-
-class CreatePostForm(forms.ModelForm):
-# عکس هارو از اینجا فعلا حذف کردم
-    class Meta:
-        model= Post
-        fields=['author','description']

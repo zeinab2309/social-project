@@ -1,8 +1,22 @@
 from django.contrib import admin
+from django.contrib.admin import DateFieldListFilter
+
 from .models import *
 from django.contrib.auth.admin import UserAdmin
-from django.contrib.admin.filters import DateFieldListFilter
+
 # Register your models here.
+admin.sites.AdminSite.site_header="پنل مدیریت جنگو"
+admin.sites.AdminSite.site_title="پنل "
+admin.sites.AdminSite.index_title="پنل مدیریت"
+
+
+class ImageInline(admin.TabularInline):
+    model=Image
+    extra = 1
+class CommentInline(admin.TabularInline):
+    model=Comment
+    extra = 0
+
 
 @admin.register(User)
 class UserAdmin(UserAdmin):
@@ -15,10 +29,7 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ['author','created']
     ordering = ['created']
     search_fields = ['description']
-
-class CommentInline(admin.TabularInline):
-    model=Comment
-    extra = 0
+    inlines = ImageInline,CommentInline
 
 
 @admin.register(Comment)
@@ -27,3 +38,7 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ['active',('created',DateFieldListFilter),('update',DateFieldListFilter)]
     search_fields = ['name','body']
     list_editable = ['active']
+
+@admin.register(Image)
+class ImageAdmin(admin.ModelAdmin):
+    list_display = ['post', 'title', 'created']

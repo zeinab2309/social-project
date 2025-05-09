@@ -30,4 +30,5 @@ urlpatterns=[
     path('posts/<int:post_id>/comment', views.post_comment, name="post_comment"),
     path('profile/create/<int:post_id>', views.edit_post, name="edit_post"),
     path('profile/delete_post/<int:post_id>', views.delete_post, name="delete_post"),
+    path('profile/delete_image/<int:image_id>', views.delete_image, name="delete_image"),
 ]

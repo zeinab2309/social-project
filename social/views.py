@@ -18,7 +18,7 @@ from django.core.paginator import Paginator, EmptyPage,PageNotAnInteger
 def log_out(request):
     logout(request)
     return HttpResponse("شما خراج شدید")
-
+@login_required
 def profile(request):
     posts = Post.objects.filter(author=request.user).order_by('-created')
     return render(request, "social/profile.html",{'posts':posts})
@@ -101,6 +101,8 @@ def create_post(request):
             post.author=request.user
             post.save()
             form.save_m2m()
+            Image.objects.create(image_file=form.cleaned_data['image1'],post=post)
+            Image.objects.create(image_file=form.cleaned_data['image2'],post=post)
             return redirect('social:profile')
     else:
         form=CreatePostForm()
@@ -167,8 +169,8 @@ def edit_post(request,post_id):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            # Image.objects.create(image_file=form.cleaned_data['image1'], post=post)
-            # Image.objects.create(image_file=form.cleaned_data['image2'], post=post)
+            Image.objects.create(image_file=form.cleaned_data['image1'], post=post)
+            Image.objects.create(image_file=form.cleaned_data['image2'], post=post)
             return redirect('social:profile')
     else:
         form = CreatePostForm(instance=post)
@@ -181,3 +183,9 @@ def delete_post(request,post_id):
         post.delete()
         return redirect('social:profile')
     return render(request,'forms/delete-post.html',{'post':post})
+
+@login_required
+def delete_image(request,image_id):
+    image=get_object_or_404(Image,id=image_id)
+    image.delete()
+    return redirect('blog:profile')

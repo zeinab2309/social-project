@@ -1,10 +1,36 @@
 {% extends 'parent/base.html' %}
 {% block title %}create post{% endblock %}
 {% block content %}
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
+        {% if post %}
+        {% for img in post.images.all %}
+            <img width="300px" height="300px" src="{{img.image_file.url}}" alt="{{img.title}}">
+            <a href="{% url 'social:delete_image' img.id %}">حدف عکس</a>
+    <br>
+        {% endfor %}
+    {% endif %}
+    <br>
+    <br>
+    <br>
     <button type="submit">ذخیره</button>
     <!--    <input type="submit" value="ثبت پست">-->
 </form>
+
+    {%if form.errors%}
+        لطفا خطا های زیر را اصلاح کنید
+        <br>
+        {%for field in form%}
+            {%if field.errors%}
+                {%for error in field.errors%}
+                    {{field.label}}:{{error}}
+                {%endfor%}
+            {%endif%}
+        {%endfor%}
+    {%endif%}
+    {%if form.non_field_errors%} <!--#همچین ارور هایی هم که اگر داره اینو میدیم -->
+        {{form.non_field_errors}}
+    {%endif%}
+
 {% endblock %}
