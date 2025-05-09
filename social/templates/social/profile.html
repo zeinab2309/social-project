@@ -2,6 +2,29 @@
 {% block title %}post list{% endblock %}
 {% block content %}
 
-<h1>sllllllllllm</h1>
+<h1>profile</h1>
 
+<table style="width: 80%;border: 2px solid black; text-align: right;direction: rtl;">
+    <tr>
+        <th>ردیف</th>
+        <th>مشاهده</th>
+        <th>ویرایش</th>
+        <th>حذف</th>
+    </tr>
+    {% for post in posts %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td><a href="{{ post.get_absolute_url }}" > {{post.description}}</a> </td>
+            <td><a href="{% url 'social:edit_post' post.id%}">ویرایش</a> </td>
+            <td><a href="{% url 'social:delete_post' post.id %}">حذف</a> </td>
+        </tr>
+    {%endfor%}
+</table>
+<br><br>
+    <a href="{% url 'social:password_change'%}">تغییر پسورد</a>
+<br><br>
+<a href="{% url 'social:edit_account'%}">تغییر اطلاعات شخصی</a>
+<br><br>
+    <a href="{% url 'social:logout' %}">خروج</a>
+<br>
 {% endblock %}

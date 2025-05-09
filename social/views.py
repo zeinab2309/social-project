@@ -20,7 +20,8 @@ def log_out(request):
     return HttpResponse("شما خراج شدید")
 
 def profile(request):
-    return render(request, "social/profile.html")
+    posts = Post.objects.filter(author=request.user).order_by('-created')
+    return render(request, "social/profile.html",{'posts':posts})
 
 
 def register(request):
@@ -156,3 +157,27 @@ def post_comment(request, post_id):
     }
     return render(request, "forms/comment.html", context)
 
+
+@login_required
+def edit_post(request,post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == "POST":
+        form = CreatePostForm(request.POST, request.FILES,instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            # Image.objects.create(image_file=form.cleaned_data['image1'], post=post)
+            # Image.objects.create(image_file=form.cleaned_data['image2'], post=post)
+            return redirect('social:profile')
+    else:
+        form = CreatePostForm(instance=post)
+    return render(request, 'forms/create-post.html', {'form': form, 'post':post})
+
+@login_required
+def delete_post(request,post_id):
+    post=get_object_or_404(Post,id=post_id)
+    if request.method=="POST":
+        post.delete()
+        return redirect('social:profile')
+    return render(request,'forms/delete-post.html',{'post':post})

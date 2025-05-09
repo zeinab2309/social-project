@@ -113,3 +113,10 @@ class CommentForm(forms.ModelForm):
         'name': '',
         'body': ''
     }
+
+
+class CreatePostForm(forms.ModelForm):
+# عکس هارو از اینجا فعلا حذف کردم
+    class Meta:
+        model= Post
+        fields=['author','description']
