@@ -188,4 +188,4 @@ def delete_post(request,post_id):
 def delete_image(request,image_id):
     image=get_object_or_404(Image,id=image_id)
     image.delete()
-    return redirect('blog:profile')
+    return redirect('social:profile')
