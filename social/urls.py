@@ -1,4 +1,6 @@
 from lib2to3.fixes.fix_asserts import NAMES
+from tkinter.font import names
+
 from  django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
@@ -31,4 +33,5 @@ urlpatterns=[
     path('profile/create/<int:post_id>', views.edit_post, name="edit_post"),
     path('profile/delete_post/<int:post_id>', views.delete_post, name="delete_post"),
     path('profile/delete_image/<int:image_id>', views.delete_image, name="delete_image"),
+    path('like_post/', views.like_post,name='like_post')
 ]
