@@ -10,7 +10,6 @@ from django.db.models import Count
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage,PageNotAnInteger
 from django.views.decorators.http import require_POST
-
 # Create your views here.
 def log_out(request):
     logout(request)
@@ -75,14 +74,18 @@ def post_list(request,tag_slug=None):
     if tag_slug:
         tag=get_object_or_404(Tag,slug=tag_slug)
         posts=Post.objects.filter(tags__in=[tag])
-    paginator=Paginator(posts,3)
-    page_number=request.GET.get('page',1)
+    paginator=Paginator(posts,2)
+    page_number=request.GET.get('page')
     try:
         posts = paginator.page(page_number)
     except EmptyPage:
-        posts = paginator.page(paginator.num_pages)  # اگر عدد ای بالا بود و وجود نداشت صفحه لیست اخر را نمایش بده
+        posts = []
     except PageNotAnInteger:
         posts = paginator.page(1)
+
+    if request.headers.get('x-requested-with')=='XMLHttpRequest':
+        return render(request,'social/list_ajax.html',{'posts':posts})
+
     context={
         'posts':posts,
         'tag':tag,

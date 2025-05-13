@@ -4,6 +4,7 @@
     {% if tag %}
         <h2>Posts tagged with {{tag.name}}</h2>
     {% endif %}
+<div id="post_list">
     <h1 class="post-list">لیست پست ها </h1>
 <ol style="--length: {{ posts|length }}" role="list">
     {% for post in posts %}
@@ -24,8 +25,29 @@
 
     </li>
 
-
+<hr>
     {% endfor%}
 </ol>
-    {% include "partials/pagination.html" with page=posts%}
+</div>
+
+<button id="load-more">بارگزاری بیشتر</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function(){
+        var page =2
+        $('#lode-more').click(function (){
+            $.ajax({
+                type:'GET',
+                url:"{% if tag %}{% url 'social:post_list_by_tag' tag.slug %}{%else%}{% url 'social:post_list'%}{%endif%}"+"?page="+ page,
+                dataType :'html',
+                success:function (data){
+                    $('#post-list').append(data);
+                    page+=1;
+                }
+            });
+        });
+    });
+</script>
+
 {% endblock %}
