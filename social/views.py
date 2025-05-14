@@ -14,10 +14,13 @@ from django.views.decorators.http import require_POST
 def log_out(request):
     logout(request)
     return HttpResponse("شما خارج شدید")
+
 @login_required
 def profile(request):
+    user=request.user
+    saved_posts=user.saved_posts.all()
     posts = Post.objects.filter(author=request.user).order_by('-created')
-    return render(request, "social/profile.html",{'posts':posts})
+    return render(request, "social/profile.html",{'posts':posts,'saved_post':saved_posts})
 
 
 def register(request):
@@ -213,3 +216,23 @@ def like_post(request):
     else:
         response_data={'error':'Invalid post_id'}
     return JsonResponse(response_data)
+
+@login_required
+@require_POST
+def save_post(request):
+    post_id=request.POST.get('post_id')
+    if post_id is not None:
+        post=Post.objects.get(pk=post_id)
+        user=request.user
+
+        if user in post.save_by.all():
+            post.save_by.remove(user)
+            saved=False
+        else:
+            post.save_by.add(user)
+            saved=True
+
+        return JsonResponse({"saved":saved})
+
+    return JsonResponse({'error':'Invalid request'})
+

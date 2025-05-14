@@ -21,6 +21,17 @@
     {%endfor%}
 </table>
 <br><br>
+<h2>پست های سیو شده:</h2>
+<ul>
+    {%for post in saved_post %}
+    <a href="{{ post.get_absolute_url}}">
+        {{post.description|truncatewords:20|linebreaks}}
+    </a>
+    published at {{ post.created}} by {{ post.author }}
+        <br><br><br>
+    {%endfor%}
+</ul>
+
     <a href="{% url 'social:password_change'%}">تغییر پسورد</a>
 <br><br>
 <a href="{% url 'social:edit_account'%}">تغییر اطلاعات شخصی</a>
