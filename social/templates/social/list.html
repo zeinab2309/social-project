@@ -36,13 +36,13 @@
 <script>
     $(document).ready(function(){
         var page =2
-        $('#lode-more').click(function (){
+        $('#load-more').click(function (){
             $.ajax({
                 type:'GET',
                 url:"{% if tag %}{% url 'social:post_list_by_tag' tag.slug %}{%else%}{% url 'social:post_list'%}{%endif%}"+"?page="+ page,
                 dataType :'html',
                 success:function (data){
-                    $('#post-list').append(data);
+                    $('#post_list').append(data);
                     page+=1;
                 }
             });
