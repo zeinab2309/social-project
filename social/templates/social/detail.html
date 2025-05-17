@@ -19,7 +19,7 @@
 </div>
 
 <button class="save-post">
-    {% if request.user in post.save_by.all %}
+    {% if user in post.save_by.all %}
         UnSave
     {% else %}
         Save
@@ -99,11 +99,11 @@
             var button=$(this);
             $.ajax({
                 type:'POST',
-                url:"/save-post/",
+                url:"/save_post/",
                 data:{'csrfmiddlewaretoken':'{{csrf_token}}','post_id':{{post.id}} },
                 success: function (data) {
                     if (data.saved){
-                        button.text('UnSave');
+                        button.text('Unsave');
                     }else{
                         button.text('Save');
                     }
