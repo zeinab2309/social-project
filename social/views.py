@@ -236,3 +236,7 @@ def save_post(request):
 
     return JsonResponse({'error':'Invalid request'})
 
+@login_required
+def user_list(request):
+    users=User.objects.filter(is_active=True)
+    return render(request, 'user/user_list.html', {'users':users})
