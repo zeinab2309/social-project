@@ -6,12 +6,13 @@
 </form>
     {% if request.user.is_authenticated %}
         <p>
-            <a href="#">{{ request.user.first_name |default:request.user.username}}</a>
+            <a href="{% url 'social:profile' %}">{{ request.user.first_name |default:request.user.username}}</a>
         </p>
     {% else %}
         <a href="{% url 'social:login' %}">  ورود  </a>
 
     {% endif %}
-<p><a href="{% url 'social:profile' %}">پروفایل</a> </p>
+
 <p><a href="{% url 'social:post_list' %}">پست ها</a> </p>
 <br>
+<hr><hr>

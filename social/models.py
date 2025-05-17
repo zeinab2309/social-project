@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractUser
 from taggit.managers import TaggableManager
 from  django.urls import  reverse
 from django_resized import ResizedImageField
-# Create your models here.
 
 class User(AbstractUser):
     date_of_birth=models.DateTimeField(verbose_name="تاریخ تولد", blank=True, null=True)
@@ -11,10 +10,9 @@ class User(AbstractUser):
     photo=models.ImageField(verbose_name="تصاویر",upload_to="account_images/",null=True, blank=True)
     job=models.CharField(max_length=250,verbose_name="شغل", blank=True, null=True)
     phone=models.CharField(verbose_name="شماره تلفن",max_length=11, blank=True, null=True)
+    following=models.ManyToManyField('self',through='Contact',related_name="followers",symmetrical=False)
 
 
-
-# Create your models here.
 class Post(models.Model):
     author=models.ForeignKey(User,on_delete=models.CASCADE,related_name="user_posts",verbose_name="نویسنده")
     description=models.TextField(verbose_name="توضیحات")
@@ -95,3 +93,18 @@ class Image(models.Model):
 
     def __str__(self):
         return self.title if self.title else "None"
+
+
+class Contact(models.Model):
+    user_from=models.ForeignKey(User,related_name='rel_from_set', on_delete=models.CASCADE),
+    user_to=models.ForeignKey(User,related_name='rel_to_set', on_delete=models.CASCADE),
+    created=models.DateTimeField(auto_now_add=True)
+    class Meta:
+        indexes=[
+            models.Index(fields=['-created'])
+        ]
+        ordering=('-created',)
+
+    def __str__(self):
+        return f"{self.user_from}follows {self.user_to}"
+

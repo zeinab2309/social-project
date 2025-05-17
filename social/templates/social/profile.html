@@ -1,8 +1,20 @@
 {% extends 'parent/base.html' %}
 {% block title %}post list{% endblock %}
 {% block content %}
+{% load thumbnail%}
+{% load static %}
 
+{% with user=request.user %}
 <h1>profile</h1>
+<p>{{request.user.get_full_name}}</p>
+{% if user.photo %}
+    <a href="{{ user.photo.url }}">
+        <img src="{% thumbnail user.photo 200x0 quality=80 %}">
+    </a>
+{% else %}
+<img src="{% static 'images/profile/avatar.jpg'%}" width="200px;">
+{% endif %}
+{% endwith %}
 <p><a href="{% url 'social:create_post' %}">ایجاد پست جدید</a> </p>
 <table style="width: 80%;border: 2px solid black; text-align: right;direction: rtl;">
     <tr>

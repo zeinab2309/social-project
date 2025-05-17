@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'taggit'
+    'taggit',
+    'easy_thumbnails',
 ]
 
 MIDDLEWARE = [
@@ -147,3 +148,5 @@ EMAIL_USE_TLS=True
 EMAIL_HOST_PASSWORD='bnty dgrx icif epsm'
 
 EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
+
+THUMBNAIL_DEBUG=True
