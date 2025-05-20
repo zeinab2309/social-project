@@ -1,0 +1,22 @@
+{% load thumbnail%}
+{% load static %}
+
+<p>{{user.get_full_name}}</p>
+<button>follow/unfollow</button>
+{% if user.photo %}
+    <a href="{{ user.photo.url }}">
+        <img src="{% thumbnail user.photo 200x0 quality=80 %}">
+    </a>
+{% else %}
+<img src="{% static 'images/profile/avatar.jpg'%}" width="200px;">
+{% endif %}
+
+    <p>Bio:{{user.bio|default:'---'}}</p>
+    <p>Job:{{user.job|default:'---'}}</p>
+    <p>Date_of_birth:{{user.date_of_birth|default:'---'}}</p>
+
+
+{% with total_followers=user.followers.count total_followings=user.following.count %}
+    <p>{{total_followers}}Follower{{total_followers|pluralize }}</p>
+    <p>{{total_followings}}Follower{{total_followings|pluralize }}</p>
+{% endwith %}

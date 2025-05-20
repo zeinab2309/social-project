@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.contrib.admin import DateFieldListFilter
-
 from .models import *
 from django.contrib.auth.admin import UserAdmin
 
@@ -30,6 +29,8 @@ class PostAdmin(admin.ModelAdmin):
     ordering = ['created']
     search_fields = ['description']
     inlines = ImageInline,CommentInline
+
+# admin.sites.register(Contact)
 
 
 @admin.register(Comment)
