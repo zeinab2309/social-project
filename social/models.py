@@ -20,12 +20,14 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
     likes=models.ManyToManyField(User, related_name="liked_posts", blank=True)
     save_by=models.ManyToManyField(User,related_name="saved_posts")
+    total_likes=models.PositiveIntegerField(default=0)
     tags=TaggableManager()
 
     class Meta:
         ordering=['-created']
         indexes=[
-            models.Index(fields=['-created'])
+            models.Index(fields=['-created']),
+            models.Index(fields=['-total_likes'])
         ]
         verbose_name="پست"
         verbose_name_plural = "پست ها"
@@ -35,6 +37,12 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('social:post_detail', args=[self.id])
+
+    def delete(self, *args, **kwargs):
+        for img in self.images.all():
+            storage,path=img.image_file.storage, img.image_file.path
+            storage.delete(path)
+        super().delete(*args,**kwargs)
 
 
 class Ticket(models.Model):

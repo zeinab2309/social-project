@@ -43,8 +43,17 @@
         <br><br><br>
     {%endfor%}
 </ul>
+<h4>اخرین فالور ها</h4>
+{% for follower in user.followers.all|slice:"0.5" %}
+{% if follower.photo %}
+    <img src="{{ flw.photo.url}}" alt="">
+{%endif%}
+<h4>{{ follower.get_full_name}}({{follower.username}})</h4>
 
-    <a href="{% url 'social:password_change'%}">تغییر پسورد</a>
+{%endfor%}
+
+
+<a href="{% url 'social:password_change'%}">تغییر پسورد</a>
 <br><br>
 <a href="{% url 'social:edit_account'%}">تغییر اطلاعات شخصی</a>
 <br><br>

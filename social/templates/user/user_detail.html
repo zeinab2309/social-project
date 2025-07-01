@@ -3,23 +3,13 @@
 
 <p>{{user.get_full_name}}</p>
 
-{% if request.user == user %}
-    <button disabled>
-        {% if request.user in user.followers.all %}
-            UnFollow
-        {% else %}
-            Follow
-        {% endif %}
-    </button>
-{% else %}
     <button class="follow-button">
         {% if request.user in user.followers.all %}
             UnFollow
-        {% else %}
+        {%else%}
             Follow
         {% endif %}
     </button>
-{% endif %}
 
 {% if user.photo %}
     <a href="{{ user.photo.url }}">

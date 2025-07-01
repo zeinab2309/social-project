@@ -17,7 +17,7 @@ def log_out(request):
 
 @login_required
 def profile(request):
-    user=request.user
+    user=User.objects.prefetch_related('followers','following').get(id=request.user.id)
     saved_posts=user.saved_posts.all()
     posts = Post.objects.filter(author=request.user).order_by('-created')
     return render(request, "social/profile.html",{'posts':posts,'saved_post':saved_posts})
@@ -72,7 +72,7 @@ def ticket(request):
 
 
 def post_list(request,tag_slug=None):
-    posts=Post.objects.all()
+    posts=Post.objects.select_related('author').order_by('-total_likes')
     tag=None
     if tag_slug:
         tag=get_object_or_404(Tag,slug=tag_slug)

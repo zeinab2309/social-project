@@ -25,7 +25,7 @@ class UserAdmin(UserAdmin):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['author','created']
+    list_display = ['description','author','created']
     ordering = ['created']
     search_fields = ['description']
     inlines = ImageInline,CommentInline
