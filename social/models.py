@@ -21,6 +21,7 @@ class Post(models.Model):
     likes=models.ManyToManyField(User, related_name="liked_posts", blank=True)
     save_by=models.ManyToManyField(User,related_name="saved_posts")
     total_likes=models.PositiveIntegerField(default=0)
+    active=models.BooleanField(default=True)
     tags=TaggableManager()
 
     class Meta:

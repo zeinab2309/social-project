@@ -35,7 +35,7 @@ class UserEditForm(forms.ModelForm):
 
     class Meta:
         model=User
-        fields=['username','first_name','last_name','email','phone','date_of_birth','photo','job']
+        fields=['username','first_name','last_name','email','phone','date_of_birth','photo','job','bio']
 
 
     def clean_phone(self):

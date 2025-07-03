@@ -1,8 +1,31 @@
-{% extends 'parent/base.html' %}
-{% block title %}ticket{% endblock %}
-{% block content %}
-{% if sent %}
-    <h1>ایمیل شما به پشتیبانی ارسال شد </h1>
+<style>
+    .messages .success{
+        color: #000000;
+        background-color: #006b1b;
+    }
+    .messages .error{
+        color: #000000;
+        background-color: #dc0202;
+    }
+    .messages .info{
+        color: #000000;
+        background-color: #0587d2;
+    }
+    .messages .warning{
+        color: #000000;
+        background-color: #e5a507;
+    }
+</style>
+
+
+{% if messages %}
+    <ul class="messages">
+        {%for message in messages%}
+            <li class="{% if message.tags%}{{message.tags}}{%endif%}">
+                {{message}}
+            </li>
+        {%endfor%}
+    </ul>
 {% endif %}
 
     <form method="post">
@@ -45,4 +68,3 @@
     {%if form.non_field_errors%}
         {{form.non_field_errors}}
     {%endif%}
-{% endblock %}

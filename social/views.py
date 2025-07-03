@@ -10,6 +10,7 @@ from django.db.models import Count
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage,PageNotAnInteger
 from django.views.decorators.http import require_POST
+from django.contrib import messages
 # Create your views here.
 def log_out(request):
     logout(request)
@@ -58,17 +59,18 @@ def edit_user(request):
 
 
 def ticket(request):
-    sent = False
     if request.method=="POST":
         form=TicketForm(request.POST)
         if form.is_valid():
             cd=form.cleaned_data
             message=f"{cd['name']}\n{cd['email']}\n{cd['phone']}\n\n{cd['message']}"
             send_mail(cd['subject'],message,'poormoosavie0@gmail.com',['mfrey2211@gmail.com'],fail_silently=False)
-            sent=True
+            messages.success(request,"ایمیل شما ارسال شد")
+            messages.warning(request,"اشتباهی پیش امده")
+            messages.error(request,"خطا...")
     else:
         form=TicketForm()
-    return render(request , "forms/ticket.html",{'form':form,'sent':sent})
+    return render(request , "forms/ticket.html",{'form':form})
 
 
 def post_list(request,tag_slug=None):

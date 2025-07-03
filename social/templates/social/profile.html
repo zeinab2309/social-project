@@ -6,7 +6,7 @@
 
 {% with user=request.user %}
 <h1>profile</h1>
-<p>{{request.user.get_full_name}}</p>
+<p>{{request.user.get_full_name}} </p>
 {% if user.photo %}
     <a href="{{ user.photo.url }}">
         <img src="{% thumbnail user.photo 200x0 quality=80 %}">
@@ -15,6 +15,11 @@
 <img src="{% static 'images/profile/avatar.jpg'%}" width="200px;">
 {% endif %}
 {% endwith %}
+    <p>Bio:{{user.bio|default:'---'}}</p>
+    <p>Job:{{user.job|default:'---'}}</p>
+    <p>Date_of_birth:{{user.date_of_birth|default:'---'}}</p>
+
+
 <p><a href="{% url 'social:create_post' %}">ایجاد پست جدید</a> </p>
 <table style="width: 80%;border: 2px solid black; text-align: right;direction: rtl;">
     <tr>
