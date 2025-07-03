@@ -3,10 +3,14 @@
 {% block content %}
 {% load thumbnail%}
 {% load static %}
+<p>profile:</p>
+{% with total_followers=user.followers.count total_following=user.following.count %}
+    <a href="{% url 'social:user_followers' %}", class="followers-count">{{total_followers}}Follower{{total_followers|pluralize }}</a>
+    <a href="{% url 'social:user_followers'%}", class="following-count">{{total_following}}Following</a>
+{% endwith %}
 
 {% with user=request.user %}
-<h1>profile</h1>
-<p>{{request.user.get_full_name}} </p>
+<h1>{{request.user.get_full_name}}</h1>
 {% if user.photo %}
     <a href="{{ user.photo.url }}">
         <img src="{% thumbnail user.photo 200x0 quality=80 %}">
@@ -15,6 +19,7 @@
 <img src="{% static 'images/profile/avatar.jpg'%}" width="200px;">
 {% endif %}
 {% endwith %}
+
     <p>Bio:{{user.bio|default:'---'}}</p>
     <p>Job:{{user.job|default:'---'}}</p>
     <p>Date_of_birth:{{user.date_of_birth|default:'---'}}</p>
@@ -49,9 +54,9 @@
     {%endfor%}
 </ul>
 <h4>اخرین فالور ها</h4>
-{% for follower in user.followers.all|slice:"0.5" %}
+{% for follower in user.followers.all|slice:"0:5" %}
 {% if follower.photo %}
-    <img src="{{ flw.photo.url}}" alt="">
+    <img src="{{ follower.photo.url}}" alt="">
 {%endif%}
 <h4>{{ follower.get_full_name}}({{follower.username}})</h4>
 

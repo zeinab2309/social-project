@@ -269,3 +269,11 @@ def user_follow(request):
         except User.DoesNotExist:
             return JsonResponse({'error':'User does not exist!'})
     return JsonResponse({'error':'Invalid request'})
+
+@login_required
+def user_followers(request):
+    user=User.objects.prefetch_related('followers','following').get(id=request.user.id)
+    followers=user.followers.all()
+    follower_user=[f.followers for f in followers]
+    return render(request, 'user/user_followers.html', {'follower_user': follower_user})
+
