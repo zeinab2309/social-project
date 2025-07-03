@@ -1,0 +1,21 @@
+{%load static%}
+<h2>لیست فالوینگ ها:</h2>
+
+<ul style="list-style: none;">
+    {% for following in user.following.all%}
+        <li style="margin-bottom: 1px; display: flex; align-items: center;">
+
+            {% if following.photo %}
+                <img src="{{ following.photo.url }}" alt="profile pic"
+                style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; margin-right: 15px;">
+            {% else %}
+                <img src="{% static 'images/profile/avatar.jpg'%}" alt="profile pic"
+                style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-right: 1px;">
+            {% endif %}
+
+            <h4 style="margin: 0;">{{ following.username }}</h4>
+        </li>
+    {% empty %}
+        <li>هیچ کسی را فالو نکرده ای.</li>
+    {% endfor %}
+</ul>

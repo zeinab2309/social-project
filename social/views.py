@@ -277,3 +277,9 @@ def user_followers(request):
     follower_user=[f.followers for f in followers]
     return render(request, 'user/user_followers.html', {'follower_user': follower_user})
 
+@login_required
+def user_following(request):
+    user=User.objects.prefetch_related('followers','following').get(id=request.user.id)
+    following=user.following.all()
+    following_user=[f.following for f in following]
+    return render(request, 'user/user_following.html', {'following_user': following_user})

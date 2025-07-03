@@ -6,7 +6,7 @@
 <p>profile:</p>
 {% with total_followers=user.followers.count total_following=user.following.count %}
     <a href="{% url 'social:user_followers' %}", class="followers-count">{{total_followers}}Follower{{total_followers|pluralize }}</a>
-    <a href="{% url 'social:user_followers'%}", class="following-count">{{total_following}}Following</a>
+    <a href="{% url 'social:user_following'%}", class="following-count">{{total_following}}Following</a>
 {% endwith %}
 
 {% with user=request.user %}
