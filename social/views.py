@@ -291,7 +291,7 @@ def user_liked(request,post_id):
     post=Post.objects.get(id=post_id)
     likes_user=post.likes.all()
     context={
-        likes_user,
-        post,
+        'likes_user':likes_user,
+        'post':post,
     }
     return render(request,"social/user_likes.html",context)

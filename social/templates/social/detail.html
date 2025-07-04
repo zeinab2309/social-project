@@ -7,7 +7,7 @@
     published at {{ post.created}} by {{ post.author }}
     <br><br>
 
-<a href="{% url 'social:user_liked'%}">
+<a href="{% url 'social:user_liked' post.id %}">
     <button class="like-button">
         {% if request.user in post.likes.all %}
             UnLike
@@ -18,7 +18,7 @@
     <span class="likes-count">{{ post.likes.count }}</span>Likes
 </a>
 </div>
-
+<br>
 <button class="save-post">
     {% if user in post.save_by.all %}
         UnSave

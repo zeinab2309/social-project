@@ -2,20 +2,22 @@
 <h2>لیست لایک کننده ها:</h2>
 
 <ul style="list-style: none;">
-    {% for user in liked_users %}
+    {% for user in post.likes.all %}
+        <a href="{{user.get_absolute_url}}">
         <li style="margin-bottom: 15px; display: flex; align-items: center;">
 
-            {% if follower.photo %}
-                <img src="{{ follower.photo.url }}" alt="profile pic"
+            {% if user.photo %}
+                <img src="{{ user.photo.url }}" alt="profile pic"
                 style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
             {% else %}
                 <img src="{% static 'images/profile/avatar.jpg'%}" alt="profile pic"
                 style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
             {% endif %}
 
-            <h4 style="margin: 0;">{{ follower.username }}</h4>
+            <h4 style="margin: 0;">{{ user.username }}</h4>
         </li>
+        </a>
     {% empty %}
-        <li>هیچ فالوئری وجود ندارد.</li>
+        <li>هیچ کسی لایک نکرده.</li>
     {% endfor %}
 </ul>
