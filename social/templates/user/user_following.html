@@ -3,6 +3,7 @@
 
 <ul style="list-style: none;">
     {% for following in user.following.all%}
+    <a href="{{following.get_absolute_url}}">
         <li style="margin-bottom: 1px; display: flex; align-items: center;">
 
             {% if following.photo %}
@@ -15,6 +16,7 @@
 
             <h4 style="margin: 0;">{{ following.username }}</h4>
         </li>
+    </a>
     {% empty %}
         <li>هیچ کسی را فالو نکرده ای.</li>
     {% endfor %}

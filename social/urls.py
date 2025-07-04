@@ -38,4 +38,5 @@ urlpatterns=[
     path('follow/', views.user_follow, name='user_follow'),
     path('followers/', views.user_followers, name='user_followers'),
     path('following/', views.user_following, name='user_following'),
+    path('likes/', views.user_liked, name='user_liked'),
 ]

@@ -1,3 +1,5 @@
+from lib2to3.fixes.fix_input import context
+
 from django.contrib.auth import logout
 from django.shortcuts import render,get_object_or_404 ,redirect
 from django.http import HttpResponse, JsonResponse
@@ -283,3 +285,13 @@ def user_following(request):
     following=user.following.all()
     following_user=[f.following for f in following]
     return render(request, 'user/user_following.html', {'following_user': following_user})
+
+@login_required
+def user_liked(request,post_id):
+    post=Post.objects.get(id=post_id)
+    likes_user=post.likes.all()
+    context={
+        likes_user,
+        post,
+    }
+    return render(request,"social/user_likes.html",context)

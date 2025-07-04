@@ -1,10 +1,10 @@
 {%load static%}
-<h2>لیست فالوئرها:</h2>
+<h2>لیست لایک کننده ها:</h2>
 
 <ul style="list-style: none;">
-    {% for follower in user.followers.all %}
-    <a href="{{follower.get_absolute_url}}">
+    {% for user in liked_users %}
         <li style="margin-bottom: 15px; display: flex; align-items: center;">
+
             {% if follower.photo %}
                 <img src="{{ follower.photo.url }}" alt="profile pic"
                 style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
@@ -15,7 +15,6 @@
 
             <h4 style="margin: 0;">{{ follower.username }}</h4>
         </li>
-    </a>
     {% empty %}
         <li>هیچ فالوئری وجود ندارد.</li>
     {% endfor %}
